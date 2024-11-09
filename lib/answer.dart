@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 
 class Answer extends StatelessWidget {
-  final void Function(int) selectHandler;  // Accepts a function that takes an int
+  final void Function() selectHandler;  // Function that takes no arguments, as it will be an anonymous function
   final String answerText;
-  final int score;  // Add a field to hold the score
 
-  const Answer(this.selectHandler, this.answerText, this.score, {super.key});
+  const Answer(this.selectHandler, this.answerText, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -16,9 +15,10 @@ class Answer extends StatelessWidget {
           foregroundColor: WidgetStateProperty.all(Colors.white),
           backgroundColor: WidgetStateProperty.all(Colors.blue),
         ),
-        onPressed: () => selectHandler(score),  // Pass the score to the handler
+        onPressed: selectHandler,  // Call the anonymous function when the button is pressed
         child: Text(answerText),
       ),
     );
   }
 }
+
