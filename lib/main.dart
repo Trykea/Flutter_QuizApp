@@ -1,6 +1,7 @@
+import 'package:first_app/result.dart';
 import 'package:flutter/material.dart';
 
-import './question.dart';
+import './quiz.dart';
 
 void main() {
   runApp(_MyApp());
@@ -9,40 +10,104 @@ void main() {
 class _MyApp extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    // TODO: implement createState
-    return MyAppState();
+    return _MyAppState();
   }
 }
 
-class MyAppState extends State<_MyApp> {
+class _MyAppState extends State<_MyApp> {
   var _questionIndex = 0;
-  void _answerQuestion() {
+  var _totalScore = 0;
+
+  void _answerQuestion(int score) {
+    _totalScore += score;
+
+    print(score);
     setState(() {
       _questionIndex++;
     });
-    print(_questionIndex);
   }
+
+  final _questions = const [
+    {
+      'questionText': 'What\'s your fav color',
+      'answers': [
+        {
+          'text': 'Black',
+          'score': 5, // Changed to int
+        },
+        {
+          'text': 'Blue',
+          'score': 8, // Changed to int
+        },
+        {
+          'text': 'Red',
+          'score': 10, // Changed to int
+        },
+        {
+          'text': 'Cyan',
+          'score': 10, // Changed to int
+        },
+      ]
+    },
+    {
+      'questionText': 'What\'s your fav animal',
+      'answers': [
+        {
+          'text': 'Cat',
+          'score': 8, // Changed to int
+        },
+        {
+          'text': 'Raccoon',
+          'score': 10, // Changed to int
+        },
+        {
+          'text': 'Dog',
+          'score': 8, // Changed to int
+        },
+        {
+          'text': 'Chopper',
+          'score': 10, // Changed to int
+        },
+      ]
+    },
+    {
+      'questionText': 'What\'s your fav social media app',
+      'answers': [
+        {
+          'text': 'Facebook',
+          'score': 5, // Changed to int
+        },
+        {
+          'text': 'Instagram',
+          'score': 10, // Changed to int
+        },
+        {
+          'text': 'Tiktok',
+          'score': 5, // Changed to int
+        },
+        {
+          'text': 'X(Twitter)',
+          'score': 8, // Changed to int
+        },
+      ]
+    },
+  ];
 
   @override
   Widget build(BuildContext context) {
-    var questions = [
-      'This is Q1',
-      'This is Q2',
-      'This is Q3',
-    ];
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: Text('Quiz App'),
+          title: const Text('Quiz App'),
         ),
-        body: Column(
-          children: [
-            Question(questions[_questionIndex]),
-            ElevatedButton(onPressed: _answerQuestion, child: Text('ans 1')),
-            ElevatedButton(onPressed: _answerQuestion, child: Text('ans 2')),
-            ElevatedButton(onPressed: _answerQuestion, child: Text('ans 3')),
-          ],
-        ),
+        body: _questionIndex < _questions.length
+            ? Quiz(
+          answerQuestion: _answerQuestion,
+          questions: _questions,
+          questionIndex: _questionIndex,
+
+        )
+            : const Result(),
       ),
     );
   }
